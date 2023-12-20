@@ -9,3 +9,14 @@ head(Data, 10) #看"Data"這個資料表的前10個row
 pdf("plot.pdf")      #開啟一個pdf file，路徑為"plot.pdf"
 plot(Data, col = Color) #將圖畫到開啟中的pdf file上去
 dev.off()            #關掉這個pdf file
+
+Result = lm(Weight~Height, data = Data) #linear regression test
+Result
+
+plot(Data$Height, Data$Weight, pch = 19)
+abline(Result)
+
+colnames(Data)[1]
+
+Result1 = lm(Data[,"Weight"]~Data[,"Height"])
+summary(Result1)
