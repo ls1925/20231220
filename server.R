@@ -4,15 +4,11 @@ shinyServer(function(input, output) {
   
   DATA = reactive({
     if (is.null(input$files)) {return()} else {
+      if(input$action1 ==0){return()}else{
+        
+      }
       dat = read.table(input$files$datapath,header=T)
       return(dat) 
-    }
-  })
-  
-  output$summary = renderPrint({
-    dat = DATA()
-    if (is.null(dat)) {return("You have to up load your data!!!")} else {
-      summary(dat)
     }
   })
   
@@ -23,11 +19,16 @@ shinyServer(function(input, output) {
     }
   })
   
-  output$view = renderTable({
-    dat = DATA()
-    if (is.null(dat)) {return()} else {
-      head(dat,input$n) 
+  output$download = downloadHandler(
+    filename = function() {'plot.pdf'},
+    content = function(con) {
+      dat = DATA()
+      if (is.null(dat)) {return()} else {
+        pdf(con)
+        plot(dat,col=input$Color)
+        dev.off()
+      }
     }
-  })
+  )
   
 })
